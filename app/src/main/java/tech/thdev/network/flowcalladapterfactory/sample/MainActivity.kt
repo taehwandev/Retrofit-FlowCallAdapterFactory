@@ -1,10 +1,10 @@
-package tech.thdev.app
+package tech.thdev.network.flowcalladapterfactory.sample
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import tech.thdev.app.databinding.MainActivityBinding
+import tech.thdev.network.flowcalladapterfactory.sample.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
 

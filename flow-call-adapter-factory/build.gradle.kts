@@ -7,7 +7,13 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
+    id("lib-publish")
 }
+
+ext["libraryName"] = "flow-call-adapter-factory"
+ext["libraryVersion"] = "1.0.0"
+ext["description"] = "Android Retrofit FlowCallAdapterFactory"
+ext["url"] = "https://thdev.tech/Retrofit-FlowCallAdapterFactory/"
 
 android {
     compileSdk = Dependency.Base.compileVersion
