@@ -27,6 +27,30 @@ interface Service {
 }
 ```
 
+# Download
+
+Gradle:
+
+```
+implementation 'tech.thdev:flow-call-adapter-factory:1.0.0'
+```
+
+or Kotlin DSL
+
+```
+implementation("tech.thdev:flow-call-adapter-factory:1.0.0")
+``
+
+Release version are available in [Sonatyp's repository.](https://search.maven.org/artifact/tech.thdev/flow-call-adapter-factory?fbclid=IwAR31h2mm6MYMGG_Wrwm4lB_Gm0EoQkMOUv63pX27WVwIYB6MATbWkQgNAWc)
+
+## Default dependency
+
+```
+implementation("org.jetbrains.kotlin:kotlin-stdlib:$version")
+implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
+implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+```
+
 ## License
 
 ```
