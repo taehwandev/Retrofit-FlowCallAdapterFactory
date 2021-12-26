@@ -29,6 +29,8 @@ interface Service {
 
 # Download
 
+![Maven Central](https://img.shields.io/maven-central/v/tech.thdev/flow-call-adapter-factory)
+
 Gradle:
 
 ```
