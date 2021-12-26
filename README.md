@@ -39,7 +39,7 @@ or Kotlin DSL
 
 ```
 implementation("tech.thdev:flow-call-adapter-factory:1.0.0")
-``
+```
 
 Release version are available in [Sonatyp's repository.](https://search.maven.org/artifact/tech.thdev/flow-call-adapter-factory?fbclid=IwAR31h2mm6MYMGG_Wrwm4lB_Gm0EoQkMOUv63pX27WVwIYB6MATbWkQgNAWc)
 
