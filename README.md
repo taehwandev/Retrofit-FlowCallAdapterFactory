@@ -3,6 +3,14 @@ Android Retrofit FlowCallAdapterFactory
 
 Retrofit 2 `CallAdapter.Factory` for `kotlin coroutine's Flow<T>`
 
+# Info
+
+- minSdk 21
+- targetSdk 35
+- compileSdk 35
+- Kotlin 1.9.24
+- coroutines 1.8.1
+
 # Usage
 
 Add `FlowCallAdapterFactory` as `Call` adapter when building your `Retrofit` instance:
