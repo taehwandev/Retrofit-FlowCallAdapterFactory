@@ -1,18 +1,13 @@
 package tech.thdev.network.flowcalladapterfactory
 
-import app.cash.turbine.test
-import java.io.IOException
-import kotlin.reflect.javaType
-import kotlin.reflect.typeOf
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import retrofit2.CallAdapter
-import retrofit2.Retrofit
-import tech.thdev.network.flowcalladapterfactory.mock.CompletableCall
+import app.cash.turbine.*
+import java.io.*
+import kotlin.reflect.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.*
+import org.junit.jupiter.api.*
+import retrofit2.*
+import tech.thdev.network.flowcalladapterfactory.mock.*
 
 internal class CancelTest {
 
@@ -30,13 +25,16 @@ internal class CancelTest {
     @BeforeEach
     fun setUp() {
         val flowString = typeOf<Flow<String>>()
-        adapter = factory.get(flowString.javaType, emptyArray(), retrofit)!! as CallAdapter<String, Flow<String>>
+        adapter = factory.get(
+            flowString.javaType,
+            emptyArray(),
+            retrofit
+        )!! as CallAdapter<String, Flow<String>>
         call = CompletableCall()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test success response`() = runBlockingTest {
+    fun `test success response`() = runTest {
         val mockBody = "hey"
         call.complete(mockBody)
         Assertions.assertFalse(call.isCanceled)
@@ -48,9 +46,8 @@ internal class CancelTest {
             }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test error case`() = runBlockingTest {
+    fun `test error case`() = runTest {
         adapter.adapt(call)
             .test {
                 call.completeWithException(IOException())
@@ -61,9 +58,8 @@ internal class CancelTest {
             }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test cancel`() = runBlockingTest {
+    fun `test cancel`() = runTest {
         adapter.adapt(call)
             .test {
                 Assertions.assertFalse(call.isCanceled)

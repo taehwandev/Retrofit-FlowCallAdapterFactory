@@ -1,20 +1,16 @@
 package tech.thdev.network.flowcalladapterfactory
 
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
-import kotlinx.coroutines.flow.Flow
-import retrofit2.CallAdapter
-import retrofit2.Response
-import retrofit2.Retrofit
-import tech.thdev.network.flowcalladapterfactory.internal.BodyCallAdapter
-import tech.thdev.network.flowcalladapterfactory.internal.ResponseCallAdapter
+import java.lang.reflect.*
+import kotlinx.coroutines.flow.*
+import retrofit2.*
+import tech.thdev.network.flowcalladapterfactory.internal.*
 
 class FlowCallAdapterFactory : CallAdapter.Factory() {
 
     override fun get(
         returnType: Type,
         annotations: Array<out Annotation>,
-        retrofit: Retrofit
+        retrofit: Retrofit,
     ): CallAdapter<*, *>? {
         if (Flow::class.java != getRawType(returnType)) {
             return null

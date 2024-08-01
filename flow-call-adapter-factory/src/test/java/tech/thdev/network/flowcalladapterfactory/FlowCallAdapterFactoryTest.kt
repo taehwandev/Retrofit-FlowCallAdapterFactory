@@ -15,18 +15,13 @@
  */
 package tech.thdev.network.flowcalladapterfactory
 
-import kotlin.reflect.javaType
-import kotlin.reflect.typeOf
-import kotlinx.coroutines.flow.Flow
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import retrofit2.CallAdapter
-import retrofit2.Response
-import retrofit2.Retrofit
-import tech.thdev.network.flowcalladapterfactory.mock.StringConverterFactory
+import kotlin.reflect.*
+import kotlinx.coroutines.flow.*
+import okhttp3.mockwebserver.*
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.extension.*
+import retrofit2.*
+import tech.thdev.network.flowcalladapterfactory.mock.*
 
 
 internal class FlowCallAdapterFactoryTest {
@@ -50,13 +45,22 @@ internal class FlowCallAdapterFactoryTest {
     @Test
     fun `test responseType`() {
         val bodyClass = typeOf<Flow<String>>()
-        Assertions.assertEquals(String::class.java, factory[bodyClass.javaType, NO_ANNOTATIONS, retrofit]!!.responseType())
+        Assertions.assertEquals(
+            String::class.java,
+            factory[bodyClass.javaType, NO_ANNOTATIONS, retrofit]!!.responseType()
+        )
 
         val bodyGeneric = typeOf<Flow<List<String>>>()
-        Assertions.assertEquals(typeOf<List<String>>().javaType, factory[bodyGeneric.javaType, NO_ANNOTATIONS, retrofit]!!.responseType())
+        Assertions.assertEquals(
+            typeOf<List<String>>().javaType,
+            factory[bodyGeneric.javaType, NO_ANNOTATIONS, retrofit]!!.responseType()
+        )
 
         val responseClass = typeOf<Flow<Response<String>>>()
-        Assertions.assertEquals(String::class.java, factory[responseClass.javaType, NO_ANNOTATIONS, retrofit]!!.responseType())
+        Assertions.assertEquals(
+            String::class.java,
+            factory[responseClass.javaType, NO_ANNOTATIONS, retrofit]!!.responseType()
+        )
     }
 
     @Test

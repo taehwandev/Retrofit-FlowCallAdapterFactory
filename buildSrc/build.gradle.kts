@@ -1,23 +1,16 @@
+@Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
     `kotlin-dsl`
     `kotlin-dsl-precompiled-script-plugins`
 }
 
-repositories {
-    google()
-    mavenCentral()
-}
-
-val kotlinVersion = "1.5.32"
-
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = kotlinVersion
+    jvmTarget = "17"
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:7.0.4")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+    implementation(libs.plugin.androidGradlePlugin)
+    implementation(libs.plugin.kotlin)
 }

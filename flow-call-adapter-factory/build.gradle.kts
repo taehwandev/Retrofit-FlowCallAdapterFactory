@@ -1,59 +1,59 @@
-import tech.thdev.gradle.dependencies.Dependency
-import tech.thdev.gradle.locals.apis
-import tech.thdev.gradle.locals.testImplementations
-import tech.thdev.gradle.locals.testRuntimeOnlys
-
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
-    id("lib-publish")
+    id("lib-publish-android")
 }
 
 ext["libraryName"] = "flow-call-adapter-factory"
-ext["libraryVersion"] = "1.0.0"
+ext["libraryVersion"] = "1.0.1"
 ext["description"] = "Android Retrofit FlowCallAdapterFactory"
 ext["url"] = "https://thdev.tech/Retrofit-FlowCallAdapterFactory/"
 
 android {
-    compileSdk = Dependency.Base.compileVersion
-    buildToolsVersion = Dependency.Base.buildToolsVersion
+    namespace = "tech.thdev.network.flowcalladapterfactory"
+    buildToolsVersion = libs.versions.buildToolsVersion.get()
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = Dependency.Base.minSdk
-        targetSdk = Dependency.Base.targetSdk
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    // AGP 8.0
+    publishing {
+        multipleVariants("release") {
+            allVariants()
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
-    // buildconfig 생성하지 않기
-    libraryVariants.all {
-        generateBuildConfigProvider.configure {
-            enabled = false
-        }
-    }
     // Junit 5 사용을 위해
     testOptions {
         unitTests.all {
@@ -63,27 +63,15 @@ android {
 }
 
 dependencies {
-    apis(
-        Dependency.Kotlin.stdLib,
-        Dependency.Network.retrofit,
-        Dependency.Coroutines.core,
-    )
+    api(libs.kotlin.stdlib)
+    api(libs.network.retrofit)
+    api(libs.coroutines.core)
 
-    Dependency.Coroutines.run {
-        testImplementations(
-            turbine,
-            test
-        )
-    }
-    Dependency.AndroidTest.run {
-        testImplementations(
-            junit5,
-            mockito,
-            mockitoKotlin,
-        )
-        testRuntimeOnlys(
-            engine,
-        )
-    }
-    testImplementation(Dependency.Network.okhttp3MockWebServer)
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.coroutines.turbine)
+    testImplementation(libs.test.junit5)
+    testImplementation(libs.test.mockito)
+    testImplementation(libs.test.mockito.kotlin)
+    testRuntimeOnly(libs.test.junit5.engine)
+    testImplementation(libs.test.okhttp.mock)
 }

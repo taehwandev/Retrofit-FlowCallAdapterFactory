@@ -5,27 +5,18 @@ buildscript {
     }
 
     dependencies {
-        classpath(tech.thdev.gradle.dependencies.Gradle.android)
-        classpath(tech.thdev.gradle.dependencies.Gradle.kotlin)
+        classpath(libs.plugin.androidGradlePlugin)
+        classpath(libs.plugin.kotlin)
     }
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "17"
 
         kotlinOptions.allWarningsAsErrors = false
 
-        kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-        kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.Experimental"
+        kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.Experimental"
     }
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
 }
