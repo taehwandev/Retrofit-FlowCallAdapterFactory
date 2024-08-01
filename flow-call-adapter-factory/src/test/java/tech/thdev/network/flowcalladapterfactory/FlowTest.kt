@@ -1,27 +1,22 @@
 package tech.thdev.network.flowcalladapterfactory
 
-import app.cash.turbine.test
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.SocketPolicy
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.http.GET
-import tech.thdev.network.flowcalladapterfactory.mock.StringConverterFactory
+import app.cash.turbine.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.*
+import okhttp3.mockwebserver.*
+import org.junit.jupiter.api.*
+import retrofit2.*
+import retrofit2.http.*
+import tech.thdev.network.flowcalladapterfactory.mock.*
 
 class FlowTest {
 
-    private lateinit var server: MockWebServer
+    private val server = MockWebServer()
 
     private lateinit var service: Service
 
     interface Service {
+
         @GET("/")
         fun body(): Flow<String>
 
@@ -31,7 +26,6 @@ class FlowTest {
 
     @BeforeEach
     fun setUp() {
-        server = MockWebServer()
         server.start()
 
         val retrofit = Retrofit.Builder()
@@ -44,8 +38,7 @@ class FlowTest {
     }
 
     @Test
-    fun `test body responseCode 200`() = runBlocking(Dispatchers.Unconfined) {
-
+    fun `test body responseCode 200`() = runTest {
         service.body()
             .test {
                 server.enqueue(MockResponse().setResponseCode(200).setBody(MOCK_RESPONSE_MESSAGE))
@@ -56,7 +49,7 @@ class FlowTest {
     }
 
     @Test
-    fun `test body responseCode 404`() = runBlocking(Dispatchers.Unconfined) {
+    fun `test body responseCode 404`() = runTest {
         service.body()
             .test {
                 server.enqueue(MockResponse().setResponseCode(404))
@@ -66,7 +59,7 @@ class FlowTest {
     }
 
     @Test
-    fun `test body failure`() = runBlocking(Dispatchers.Unconfined) {
+    fun `test body failure`() = runTest {
         service.body()
             .test {
                 server.enqueue(MockResponse().setSocketPolicy(SocketPolicy.DISCONNECT_AFTER_REQUEST))
@@ -76,7 +69,7 @@ class FlowTest {
     }
 
     @Test
-    fun `test response responseCode 200`() = runBlocking(Dispatchers.Unconfined) {
+    fun `test response responseCode 200`() = runTest {
         service.response()
             .test {
                 server.enqueue(MockResponse().setBody(MOCK_RESPONSE_MESSAGE))
@@ -87,7 +80,7 @@ class FlowTest {
     }
 
     @Test
-    fun `test response responseCode 404`() = runBlocking(Dispatchers.Unconfined) {
+    fun `test response responseCode 404`() = runTest {
         service.response()
             .test {
                 server.enqueue(MockResponse().setResponseCode(404))
@@ -97,7 +90,7 @@ class FlowTest {
     }
 
     @Test
-    fun `test response failure`() = runBlocking(Dispatchers.Unconfined) {
+    fun `test response failure`() = runTest {
         service.response()
             .test {
                 server.enqueue(MockResponse().setSocketPolicy(SocketPolicy.DISCONNECT_AFTER_REQUEST))

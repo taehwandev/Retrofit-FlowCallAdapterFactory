@@ -1,8 +1,8 @@
 package tech.thdev.network.flowcalladapterfactory.mock
 
-import java.util.concurrent.CountDownLatch
-import okhttp3.Request
-import okio.Timeout
+import java.util.concurrent.*
+import okhttp3.*
+import okio.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +36,7 @@ class CompletableCall<T>(
         complete(Response.success(body))
     }
 
-    fun complete(response: Response<T>) {
+    private fun complete(response: Response<T>) {
         synchronized(lock) {
             this.response = response
             println("this.response ${this.response}")
@@ -88,8 +88,6 @@ class CompletableCall<T>(
 
     override fun enqueue(callback: Callback<T>) {
         synchronized(lock) {
-            println("exception $exception")
-            println("response $response")
             when {
                 exception != null -> callback.onFailure(this, exception!!)
                 response != null -> callback.onResponse(this, response!!)
